@@ -1,0 +1,57 @@
+# Additional JVB instances for scaling
+# Usage: ./scale-jvb.sh <number_of_extra_jvbs>
+# Or manually: JVB_EXTRA_PORT=10001 docker-compose -f docker-compose.yml -f docker-compose.jvb-extra.yml up -d jvb-extra
+#
+# Each extra JVB needs a unique UDP port (10001, 10002, etc.)
+# They all connect to the same Prosody and are managed by Jicofo automatically.
+
+services:
+    jvb-extra:
+        image: jitsi/jvb:${JITSI_IMAGE_VERSION:-unstable}
+        restart: ${RESTART_POLICY:-unless-stopped}
+        ports:
+            - '${JVB_EXTRA_PORT:-10001}:${JVB_PORT:-10000}/udp'
+        labels:
+            service: "jitsi-jvb-extra"
+        environment:
+            - DISABLE_AWS_HARVESTER
+            - DOCKER_HOST_ADDRESS
+            - ENABLE_COLIBRI_WEBSOCKET
+            - ENABLE_JVB_XMPP_SERVER
+            - ENABLE_OCTO
+            - ENABLE_SCTP
+            - JVB_ADVERTISE_IPS
+            - JVB_ADVERTISE_PRIVATE_CANDIDATES
+            - JVB_AUTH_USER
+            - JVB_AUTH_PASSWORD
+            - JVB_BREWERY_MUC
+            - JVB_CC_TRUST_BWE
+            - JVB_DISABLE_STUN
+            - JVB_DISABLE_XMPP
+            - JVB_PORT
+            - JVB_STUN_SERVERS
+            - JVB_LOG_FILE
+            - JVB_OCTO_BIND_ADDRESS
+            - JVB_OCTO_REGION
+            - JVB_OCTO_RELAY_ID
+            - JVB_REQUIRE_VALID_ADDRESS
+            - JVB_USE_USRSCTP
+            - JVB_WS_DOMAIN
+            - JVB_WS_TLS
+            - JVB_XMPP_AUTH_DOMAIN
+            - JVB_XMPP_INTERNAL_MUC_DOMAIN
+            - JVB_XMPP_PORT
+            - JVB_XMPP_SERVER
+            - PUBLIC_URL
+            - COLIBRI_REST_ENABLED
+            - SHUTDOWN_REST_ENABLED
+            - TZ
+            - VIDEOBRIDGE_MAX_MEMORY
+            - XMPP_AUTH_DOMAIN
+            - XMPP_INTERNAL_MUC_DOMAIN
+            - XMPP_SERVER
+            - XMPP_PORT
+        depends_on:
+            - prosody
+        networks:
+            meet.jitsi:

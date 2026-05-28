@@ -1,0 +1,10 @@
+# Branding overrides para LeelaTech.
+# Montados en /usr/share/jitsi-meet/* del contenedor web.
+services:
+  web:
+    volumes:
+      - ${CONFIG}/web/leelatech/plugin.head.html:/usr/share/jitsi-meet/plugin.head.html:ro
+      - ${CONFIG}/web/leelatech/title.html:/usr/share/jitsi-meet/title.html:ro
+      - ${CONFIG}/web/leelatech/watermark.svg:/usr/share/jitsi-meet/images/watermark.svg:ro
+      - ${CONFIG}/web/leelatech/lang/main.json:/usr/share/jitsi-meet/lang/main.json:ro
+      - ${CONFIG}/web/leelatech/lang/main-es.json:/usr/share/jitsi-meet/lang/main-es.json:ro
